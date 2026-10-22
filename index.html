@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Chris Ennis: Software, Simulation and GNC</title>
+<meta name="description" content="Chris Ennis: software developer working toward C++ simulation, GNC and flight software.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap">
+  <h1>Chris Ennis</h1>
+  <p class="lede">Software developer. I build and run production software on my own, and I'm working toward C++ simulation, guidance/navigation/control and flight software.</p>
+  <nav aria-label="Sections">
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main" class="wrap">
+  <section id="projects" aria-labelledby="projects-h">
+    <h2 id="projects-h">Projects</h2>
+    <article class="card">
+      <h3><a href="https://github.com/CEnnisgit/orbtrisk-cockpit">orbtrisk-cockpit</a></h3>
+      <p class="meta">Python · FastAPI · SGP4 · astropy</p>
+      <p>Orbital conjunction screening and triage. It propagates TLEs with SGP4, converts TEME states to GCRS, flags close approaches within a configurable volume (default 10 km over 14 days), parses CCSDS CDM (KVN) messages, and groups repeat alerts into one event with an update history. Each event gets a Low/Watch/High tier and an A&ndash;D confidence grade, and operator decisions go into an audit log.</p>
+      <p><strong>Scope:</strong> screening only. No probability of collision and no orbit determination. 21 automated tests (pytest).</p>
+    </article>
+    <article class="card">
+      <h3>C++ constellation simulation</h3>
+      <p class="meta">C++20 · Monte Carlo · orbit and attitude dynamics</p>
+      <p>A simulation project for large satellite constellations, covering orbit and attitude dynamics and validation against established reference tools. In progress.</p>
+      <p><em>Private, available on request.</em></p>
+    </article>
+    <article class="card">
+      <h3><a href="https://github.com/CEnnisgit/keepwell-app">Keepwell</a></h3>
+      <p class="meta">Swift 6 · SwiftUI · PhotoKit · Vision · StoreKit 2</p>
+      <p>iOS photo-library cleaner with swipe review and Vision-based duplicate grouping. Built with strict concurrency.</p>
+    </article>
+    <article class="card">
+      <h3><a href="https://github.com/CEnnisgit/4theloveofcolor">Production company website</a></h3>
+      <p class="meta">React 18 · TypeScript · Vite</p>
+      <p>Marketing site for a Sarasota-area painting company, with prerendered routes. In my work there I also built and maintain an internal CRM (PHP, JavaScript, SQL) for customers, scheduling and project tracking.</p>
+    </article>
+  </section>
+
+  <section id="skills" aria-labelledby="skills-h">
+    <h2 id="skills-h">Skills</h2>
+    <dl class="skills">
+      <dt>Languages</dt><dd>C++, Python, TypeScript/JavaScript, Swift, PHP, SQL, HTML/CSS</dd>
+      <dt>Frameworks</dt><dd>FastAPI, React, SwiftUI, SQLAlchemy, pytest</dd>
+      <dt>Domain</dt><dd>SGP4/TLE propagation, reference frames (TEME, GCRS), CCSDS CDM, conjunction screening</dd>
+      <dt>Ops</dt><dd>Linux, Docker, Git, deployment and hosting, debugging production systems</dd>
+    </dl>
+    <p>Experience: about 4.5 years building and running production software as a solo developer (since May 2022).</p>
+  </section>
+
+  <section id="education" aria-labelledby="education-h">
+    <h2 id="education-h">Education</h2>
+    <p>A.A. in progress, St. Petersburg College (expected Spring 2027); planning transfer to University of Florida.</p>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p><a href="https://github.com/CEnnisgit">github.com/CEnnisgit</a></p>
+  </section>
+</main>
+<footer class="wrap"><p>Static page. No cookies, no tracking.</p></footer>
+</body>
+</html>
