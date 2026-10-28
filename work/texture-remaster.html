@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>AI texture remaster pipeline · Chris Ennis</title>
+<meta name="description" content="Upscaling DS textures with image models and checking every result with numbers.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="AI texture remaster pipeline · Chris Ennis">
+<meta property="og:description" content="Upscaling DS textures with image models and checking every result with numbers.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="dot" aria-hidden="true"></span>Chris Ennis</a>
+<nav aria-label="Primary"><ul>
+<li><a href="../index.html#work">Work</a></li><li><a href="../index.html#experience">Experience</a></li>
+<li><a href="../index.html#about">About</a></li><li><a href="../index.html#contact">Contact</a></li></ul></nav>
+<a class="btn sm" href="mailto:cennis512@gmail.com">Email me</a>
+</div></header>
+<main id="main">
+<div class="wrap"><section class="cs-hero"><a class="back" href="../index.html#work">← All work</a><p class="eyebrow">Case study · 2026 · part of the 358 Days Remake</p><h1>Upscaling DS textures with image models, and checking the results with numbers</h1><p class="lede">Ask an image model to modernize a texture and it will often change the design too. So I measure every output against numeric targets and the original layout, and throw out the ones that drift.</p><div class="summary"><div><small>Role</small><span>Came up with the method, directed the tooling</span></div><div><small>Timeline</small><span>Sep 2026</span></div><div><small>Stack</small><span>Python, OpenCV, NumPy, SciPy</span></div><div><small>Output</small><span>Kept local, never committed</span></div></div></section><figure class="figure"><svg viewBox="0 0 720 300" role="img" aria-labelledby="pp-t pp-d"><title id="pp-t">Texture modernization pipeline</title>
+<desc id="pp-d">Stages: plan the area's textures, choose a route (generation, HD lineage or procedural), build a job folder with layout and numeric targets, generate, then check, tone-lock, register and publish with a ready log.</desc>
+<rect class="sv-bg" width="720" height="300"/>
+<g stroke-width="1.2">
+<rect class="sv-box" x="30" y="40" width="150" height="70" rx="10"/><rect class="sv-box" x="210" y="40" width="150" height="70" rx="10"/>
+<rect class="sv-box" x="390" y="40" width="150" height="70" rx="10"/><rect class="sv-box sv-accs" x="570" y="40" width="120" height="70" rx="10" stroke-width="1.8"/>
+<rect class="sv-box" x="30" y="190" width="150" height="70" rx="10"/><rect class="sv-box" x="210" y="190" width="150" height="70" rx="10"/>
+<rect class="sv-box" x="390" y="190" width="150" height="70" rx="10"/><rect class="sv-box" x="570" y="190" width="120" height="70" rx="10"/>
+</g>
+<g class="sv-tb sv-ink"><text x="46" y="70">plan.json</text><text x="226" y="70">Route</text><text x="406" y="70">Job folder</text><text x="586" y="70">Generate</text>
+<text x="46" y="220">--check</text><text x="226" y="220">--tonelock</text><text x="406" y="220">--register</text><text x="586" y="220">--publish</text></g>
+<g class="sv-t sv-ink3"><text x="46" y="92">textures in order</text><text x="226" y="92">gpt · lineage · proc</text><text x="406" y="92">layout + targets</text><text x="586" y="92">image model</text>
+<text x="46" y="242">edges ≤3px, color</text><text x="226" y="242">palette locked</text><text x="406" y="242">affine + flow</text><text x="586" y="242">READY.jsonl</text></g>
+<g fill="none" class="sv-accs" stroke-width="1.6"><path d="M180 75H204M360 75H384M540 75H564M630 110V150H105V184M180 225H204M360 225H384M540 225H564"/></g>
+<text class="sv-t sv-ink3" x="250" y="168">fail → numeric feedback → regenerate</text>
+</svg><figcaption>Every generated image has to pass these checks before it gets used in a room.</figcaption></figure><div class="prose"><h2>What was hard</h2><div><p>The DS textures are tiny and use few colors. I want them to look like a modern Unreal game. Telling a model "make it look like KH3" gives you random palettes and made-up detail. I needed results I could <em>repeat</em> that <em>kept the original layout</em>.</p></div></div><div class="prose"><h2>What I did</h2><div><ul><li><b>Learn from real pairs.</b> I took old and new textures of the same location from the actual games and measured what changed: saturation down 33 to 50%, hue the same, brightness mostly the same, fine detail up 20 to 45%. One pair was a redesign, so I dropped it. A redesign isn't a rule.</li><li><b>Different paths per texture.</b> Image-model generation, reusing an existing HD version, or procedural work (vector upscale, gradient, alpha, redrawn linework, and a strict mode that adds nothing new).</li><li><b>One folder per job.</b> Each has the upscaled layout, a k-means map of tone regions, in-game lighting, references, a prompt with numeric targets, and pass thresholds.</li><li><b>Automatic checks.</b> Edges have to line up with the original within 3 px, and mean RGB, saturation, brightness and detail have to hit their targets. Then the palette gets locked, the image gets aligned onto the original layout, and it goes in a READY log.</li><li><b>Previews that match the engine.</b> I ported the old UE 4.18 tonemapper (a baked 32³ LUT) so previews look like they will in-game.</li></ul></div></div><div class="prose"><h2>Numbers</h2><div><p>In this test the model never saw the real modern texture. It only got feedback as numbers and short notes.</p><div class="tw"><table><thead><tr><th>Attempt</th><th>Saturation</th><th>Brightness</th><th>Mean RGB</th><th>Fine detail</th></tr></thead><tbody><tr><td>KH2 input</td><td>0.60</td><td>0.45</td><td>(177, 99, 72)</td><td>0.020</td></tr><tr><td>v1: pairs + rules only</td><td>0.60</td><td>0.44</td><td>(170, 99, 69)</td><td>0.021</td></tr><tr><td>v2: + corrections</td><td>0.49</td><td>0.53</td><td>(180, 124, 93)</td><td>0.028</td></tr><tr class=hl><td>v3: + numeric targets</td><td>0.38</td><td>0.50</td><td>(160, 121, 99)</td><td>0.031</td></tr><tr><td>KH3 real (hidden)</td><td>0.37</td><td>0.46</td><td>(147, 111, 92)</td><td>0.024</td></tr></tbody></table></div><p class="mt">By v3 the saturation was <b>0.01</b> off the hidden texture. It still wasn't a match: the real one has thinner grout, more marbled stone and more variation between slabs.</p></div></div><div class="prose"><h2>My role</h2><div><p>The learn-from-pairs idea and the rules were mine. AI agents wrote and ran most of the tooling (about 30 Python modules) following those rules. I decided what passed.</p></div></div><div class="prose"><h2>IP note</h2><div><p class="note">The textures belong to Square Enix / Disney. Generated images stay on my machine. They're never committed, published or shown here. This page only covers the method and my measurements.</p></div></div><div class="prose"><h2>Stack</h2><div><p><ul class="chips"><li class="chip">Python</li><li class="chip">OpenCV</li><li class="chip">NumPy</li><li class="chip">SciPy</li><li class="chip">Pillow</li><li class="chip">k-means</li><li class="chip">ECC registration</li><li class="chip">UE 4.18 tonemapper port</li></ul></p></div></div><div class="next"><a class="btn" href="../index.html#work">← All work</a><a class="btn primary" href="orbtrisk.html">Next: orbtrisk-cockpit →</a></div></div></main>
+<footer><div class="wrap"><span>© 2026 Chris Ennis · Sarasota, FL</span>
+<span>Hand-built static HTML and CSS. No trackers, no JavaScript, no external requests.</span></div></footer>
+</body></html>

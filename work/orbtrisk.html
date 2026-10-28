@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>orbtrisk-cockpit: conjunction screening · Chris Ennis</title>
+<meta name="description" content="A Python tool that finds satellite close approaches from public TLEs with SGP4.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="orbtrisk-cockpit: conjunction screening · Chris Ennis">
+<meta property="og:description" content="A Python tool that finds satellite close approaches from public TLEs with SGP4.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="dot" aria-hidden="true"></span>Chris Ennis</a>
+<nav aria-label="Primary"><ul>
+<li><a href="../index.html#work">Work</a></li><li><a href="../index.html#experience">Experience</a></li>
+<li><a href="../index.html#about">About</a></li><li><a href="../index.html#contact">Contact</a></li></ul></nav>
+<a class="btn sm" href="mailto:cennis512@gmail.com">Email me</a>
+</div></header>
+<main id="main">
+<div class="wrap"><section class="cs-hero"><a class="back" href="../index.html#work">← All work</a><p class="eyebrow">Case study · 2026 · public repo</p><h1>orbtrisk-cockpit: finding satellite close approaches</h1><p class="lede">A first-pass tool that finds tracked objects passing close to each other, merges repeat alerts, and logs what a person decided about each one. It's triage, not collision analysis.</p><div class="summary"><div><small>Role</small><span>Sole developer</span></div><div><small>Stack</small><span>Python 3.11, FastAPI</span></div><div><small>Tests</small><span>21 tests, 6 files, CI</span></div><div><small>Deploy</small><span>Docker Compose</span></div></div></section><figure class="figure"><img src="../assets/map.webp" width="1400" height="900" alt="OrbitRisk 3D map with object inspector, time controls and catalog toggles"><figcaption>Map view: time controls, object inspector and catalog layers.</figcaption></figure><div class="prose"><h2>What was hard</h2><div><p>Public TLE catalogs are big and noisy. A first pass needs to answer: which approaches are worth looking at, is this a new event or an update to an old one, and how much can I trust the data?</p></div></div><div class="prose"><h2>What I did</h2><div><ul><li>Load TLEs and state vectors from Space-Track GP, CelesTrak or by hand, and keep track of where each came from and its epoch.</li><li>Propagate with SGP4, 14 days ahead by default. Convert TEME to GCRS with astropy and do the geometry in GCRS.</li><li>Flag anything that comes within the screening distance (10 km by default). Also read CCSDS CDM (KVN) messages in as events.</li><li>Merge repeat alerts into one event with a history. Rate each Low, Watch or High, and grade the data A to D based on source and TLE age.</li><li>A person makes the calls, and every decision goes in an audit log you can export as PDF. Webhooks are HMAC-signed, with session auth, rate limits, and origin and host checks.</li></ul></div></div><div class="prose"><h2>Numbers</h2><div><ul><li>21 tests covering the API, auth, CDM parsing, propagation, risk ratings and settings. CI runs them on every push.</li><li>Runs locally with one Docker Compose command.</li></ul></div></div><div class="prose"><h2>Limits</h2><div><p class="note">It doesn't compute probability of collision (Pc), doesn't do orbit determination, and doesn't suggest maneuvers. TLE/SGP4 error grows to kilometers within days, so treat it as triage. It's a personal project. No satellite operator is involved.</p></div></div><div class="prose"><h2>Links</h2><div><p><a class="btn" href="https://github.com/CEnnisgit/orbtrisk-cockpit">github.com/CEnnisgit/orbtrisk-cockpit</a></p></div></div><div class="next"><a class="btn" href="../index.html#work">← All work</a><a class="btn primary" href="4theloveofcolor.html">Next: 4 The Love of Color →</a></div></div></main>
+<footer><div class="wrap"><span>© 2026 Chris Ennis · Sarasota, FL</span>
+<span>Hand-built static HTML and CSS. No trackers, no JavaScript, no external requests.</span></div></footer>
+</body></html>

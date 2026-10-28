@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>358 Days Remake: DaysForge harness · Chris Ennis</title>
+<meta name="description" content="A fan remake of a DS game in Unreal C++, and the test harness that checks it against the original.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="358 Days Remake: DaysForge harness · Chris Ennis">
+<meta property="og:description" content="A fan remake of a DS game in Unreal C++, and the test harness that checks it against the original.">
+<meta property="og:type" content="website">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="dot" aria-hidden="true"></span>Chris Ennis</a>
+<nav aria-label="Primary"><ul>
+<li><a href="../index.html#work">Work</a></li><li><a href="../index.html#experience">Experience</a></li>
+<li><a href="../index.html#about">About</a></li><li><a href="../index.html#contact">Contact</a></li></ul></nav>
+<a class="btn sm" href="mailto:cennis512@gmail.com">Email me</a>
+</div></header>
+<main id="main">
+<div class="wrap"><section class="cs-hero"><a class="back" href="../index.html#work">← All work</a><p class="eyebrow">Case study · 2026 · non-commercial fan project</p><h1>358 Days Remake in Unreal C++</h1><p class="lede">I'm remaking a 2009 Nintendo DS action RPG in Unreal Engine 5.8. Making it look modern is the easy part. Proving it plays like the original is hard, so most of the work is a test harness.</p><div class="summary"><div><small>Role</small><span>Project lead and architect</span></div><div><small>Timeline</small><span>Sep 2026 – ongoing</span></div><div><small>Stack</small><span>UE 5.8 C++, Python, Lua</span></div><div><small>Status</small><span>Systems in progress; not yet playable end to end</span></div></div></section><figure class="figure"><svg viewBox="0 0 720 450" role="img" aria-labelledby="hz-t hz-d"><title id="hz-t">DaysForge test-harness architecture</title>
+<desc id="hz-d">Two evidence paths: the original game, run under controlled emulator state, produces measured contracts. The remake runtime produces equivalent captures. A comparator checks both and returns PASS, FAIL, INVALID, INCOMPARABLE or SYNTHETIC_PASS.</desc>
+<rect class="sv-bg" width="720" height="450"/>
+<g fill="none" stroke-width="1.5">
+<path class="sv-line" d="M40 60H680M40 390H680" stroke-dasharray="2 6"/>
+</g>
+<text class="sv-t sv-ink3" x="40" y="44">REFERENCE PATH</text>
+<text class="sv-t sv-ink3" x="40" y="420">IMPLEMENTATION PATH</text>
+<g stroke-width="1.2">
+<rect class="sv-box" x="40" y="80" width="180" height="78" rx="10"/>
+<rect class="sv-box" x="270" y="80" width="180" height="78" rx="10"/>
+<rect class="sv-box" x="40" y="292" width="180" height="78" rx="10"/>
+<rect class="sv-box" x="270" y="292" width="180" height="78" rx="10"/>
+<rect class="sv-box sv-accs" x="500" y="176" width="180" height="98" rx="10" stroke-width="1.8"/>
+</g>
+<text class="sv-tb sv-ink" x="56" y="112">Original game</text><text class="sv-t sv-ink3" x="56" y="134">controlled emulator</text><text class="sv-t sv-ink3" x="56" y="150">state + input traces</text>
+<text class="sv-tb sv-ink" x="286" y="112">Measured contract</text><text class="sv-t sv-ink3" x="286" y="134">checkpoints, fields,</text><text class="sv-t sv-ink3" x="286" y="150">tolerances</text>
+<text class="sv-tb sv-ink" x="56" y="324">Rules core</text><text class="sv-t sv-ink3" x="56" y="346">deterministic, engine-</text><text class="sv-t sv-ink3" x="56" y="362">independent state</text>
+<text class="sv-tb sv-ink" x="286" y="324">UE 5.8 C++ runtime</text><text class="sv-t sv-ink3" x="286" y="346">adapters + equivalent</text><text class="sv-t sv-ink3" x="286" y="362">capture</text>
+<text class="sv-tb sv-ink" x="516" y="208">Comparator</text><text class="sv-t sv-ink3" x="516" y="230">fingerprinted, sealed</text><text class="sv-t sv-ink3" x="516" y="246">reports, first</text><text class="sv-t sv-ink3" x="516" y="262">divergent line</text>
+<g fill="none" stroke-width="1.6" class="sv-accs">
+<path d="M220 119H262M450 331H470Q490 331 490 300V250H500M450 119H470Q490 119 490 150V200H500M220 331H262"/>
+</g>
+<g class="sv-acc"><path d="M262 114l8 5-8 5zM262 326l8 5-8 5zM496 195l8 5-8 5zM496 245l8 5-8 5z"/></g>
+<g class="sv-t">
+<text class="sv-ink2" x="516" y="300">PASS · FAIL</text><text class="sv-ink2" x="516" y="318">INVALID · INCOMPARABLE</text><text class="sv-acc" x="516" y="336">SYNTHETIC_PASS ≠ PASS</text>
+</g>
+</svg><figcaption>The original game and my build feed the same comparator. A match against fake test data gets its own result and fails the run, so it can't be mistaken for a real match.</figcaption></figure><div class="prose"><h2>What was hard</h2><div><p>A remake that only <em>looks</em> right is easy to demo and hard to debug. Missions, panels, rewards, enemies and saves all affect each other. Change one and the difficulty shifts somewhere else. I didn't want to claim anything matched the original unless I'd measured it.</p></div></div><div class="prose"><h2>What I did</h2><div><ul><li><b>The original game is the spec.</b> I run it in an emulator from a known state with recorded inputs, record what happens frame by frame, and turn that into checks with tolerances.</li><li><b>Game rules live outside Unreal.</b> The rules core (DaysDomain) is deterministic and doesn't know about the engine. Unreal C++ adapters sit around it. The UI can only read state, and only the save layer writes saves, so an animation callback can't hand out a reward twice.</li><li><b>More than pass/fail.</b> Results are PASS, FAIL, INVALID, INCOMPARABLE or SYNTHETIC_PASS. Each report fingerprints its inputs and points at the first line where the traces differ.</li><li><b>Safe test runs.</b> Checks before a run starts, a watchdog, locked logs, and cleanup that confirms saves and config files weren't touched.</li><li><b>Content is data.</b> Missions, spawns and rewards are data files. A hash of the mission data has to match after every refactor.</li></ul></div></div><div class="prose"><h2>My role</h2><div><p>To be straight about it: AI coding agents (Codex, Claude) wrote much of the code. I wrote the specs and rules they worked from, decided what counted as matching the original, and set the checks code had to pass. I split up the work, reviewed it, and threw out claims the tests didn't support. One other person wrote a separate refactor branch.</p></div></div><div class="prose"><h2>Numbers</h2><div><ul><li><b>530 commits</b> on the current branch, Sep 6 to Oct 16, 2026.</li><li><b>228 / 228</b> offline tests passed in one regression run on Sep 27, 2026. Nothing skipped, and the source matched what was tested.</li><li><b>26 / 26</b> checks passed against the original game's title screen flow. That's 4 scenarios run twice each, including checks that inputs and save RAM weren't altered.</li><li>I captured the new front end in Unreal at <b>2560×1440</b> with no scripted input. It failed the visual check because labels were missing. That's the next task.</li><li>The refactor has <b>11 checks</b> it must pass: tests, golden output, spec, guard, coverage, frame-by-frame replay and smoke.</li></ul></div></div><div class="prose"><h2>Limits</h2><div><p class="note">You can't play it yet. Individual systems and short test runs work. A full mission doesn't yet. It's a non-commercial fan project. Kingdom Hearts is © Square Enix / Disney. The repo has no game assets, ROMs or saves, a pre-push hook blocks them, and nothing is distributed. I left game screenshots off this page on purpose.</p></div></div><div class="prose"><h2>Stack</h2><div><p><ul class="chips"><li class="chip">C++</li><li class="chip">Unreal Engine 5.8</li><li class="chip">Python (uv workspace)</li><li class="chip">Lua</li><li class="chip">pytest</li><li class="chip">PowerShell</li><li class="chip">Git hooks / clean-index gate</li></ul></p><p class="mt">The code is private because of the game's IP. I'm happy to walk through it on a call.</p></div></div><div class="next"><a class="btn" href="../index.html#work">← All work</a><a class="btn primary" href="texture-remaster.html">Next: texture pipeline →</a></div></div></main>
+<footer><div class="wrap"><span>© 2026 Chris Ennis · Sarasota, FL</span>
+<span>Hand-built static HTML and CSS. No trackers, no JavaScript, no external requests.</span></div></footer>
+</body></html>
